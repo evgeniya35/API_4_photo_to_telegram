@@ -19,6 +19,7 @@ pip install -r requirements.txt
 ```
 NASA_API_KEY={Your NASA API Key}
 TELEGRAM_TOKEN={Your Telegram Token}
+TELEGRAM_CHANNEL={Your Telegram channel id}
 PUBLISH_DELAY=10
 ```
 ### fetch_spacex.py
@@ -28,7 +29,7 @@ PUBLISH_DELAY=10
 Загружает с сайта компании космического агенства [NASA](https://api.nasa.gov/) фотографии в директорию `images\nasa`. Для доступа к фотографиям необходимо сгенерировать API Key [NASA](https://api.nasa.gov/#signUp), сохранить в `NASA_API_KEY` файла `.env`.
 
 ### to_telegram.py
-Публикует загруженные фотографии в Telegram канал. Ваш Telegram Token необходимо сохранить в `TELEGRAM_TOKEN` файла `.env`. Периодичность публикации составляет 24 часа. Периодичность можно задать в `PUBLISH_DELAY=10` (секунды) файла `.env`.
+Публикует загруженные фотографии в Telegram канал, настройка `TELEGRAM_CHANNEL` в файле `.env`. Ваш Telegram Token необходимо сохранить в `TELEGRAM_TOKEN` файла `.env`. Периодичность публикации составляет 24 часа. Периодичность можно задать в `PUBLISH_DELAY=10` (секунды) файла `.env`.
 
 ### Цель проекта
 
