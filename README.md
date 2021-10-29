@@ -1,50 +1,35 @@
-# ПРОЕКТ ОПИСАНИЯ.......
 # Загрузка фотографий в Telegram
 
-Набор скриптов загружает фотографию в Telegram
+Набор скриптов загружает фотографии космической тематики в Telegram канал.
 
-## Окружение
+## Как установить
 
+### Окружение
 Python должен быть установлен.
 
 ### Зависимости
-
 Используйте pip для установки зависимостей:
 ```bash
 pip install -r requirements.txt
 ```
-
 ### Переменные окружения
 
-Отредактируйте `.env` для необходимых настроек:
-...
-[//]: # (
-
-* `DB_URL=postgres://USER:PASSWORD@HOST:PORT/NAME` настройка подключения к БД.
-* `ALLOWED_HOSTS=127.0.0.1,localhost` cписок хостов/доменов, для которых может работать текущий сайт.
+Отредактируйте `.env` для необходимых настроек.
 Пример `.env.example`:
 ```
-SECRET_KEY=REPLACE_ME
-DB_URL=postgres://USER:PASSWORD@HOST:PORT/NAME
-DEBUG=False
-ALLOWED_HOSTS=127.0.0.1,localhost
+NASA_API_KEY={Your NASA API Key}
+TELEGRAM_TOKEN={Your Telegram Token}
+PUBLISH_DELAY=10
 ```
+### fetch_spacex.py
+Загружает с сайта компании [SpaceX](https://api.spacexdata.com) информацию о запусках. Фотографии запуска сохраняет в директорию `images\spacex`.
 
-#### Запуск
+### fetch_nasa.py
+Загружает с сайта компании космического агенства [NASA](https://api.nasa.gov/) фотографии в директорию `imagez\nasa`. Для доступа к фотографиям необходимо сгенерировать API Key [NASA](https://api.nasa.gov/#signUp), сохранить в `NASA_API_KEY` файла `.env`
 
-Запустите Python:
-```bash
-$ python manage.py runserver 0.0.0.0:8000
-```
+### to_telegram.py
+Публикует загруженные фотографии в Telegram канал. Ваш Telegram Token необходимо сохранить в `TELEGRAM_TOKEN` файла `.env`. Периодичность публикации составляет 24 часа. Периодичность можно задать в `PUBLISH_DELAY=10` (секунды) файла `.env`.
 
-#### Как работает
-
-* Откройте приложение в браузере. [По умолчанию http://127.0.0.1:8000/](http://127.0.0.1:8000/) 
-
-![](images/app.png)
-
-## Особенности работы
-)
 ### Цель проекта
 
 Код написан в образовательных целях на онлайн-курсе для веб-разработчиков [dvmn.org](https://dvmn.org/).
