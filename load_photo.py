@@ -9,9 +9,11 @@ def photo_ext(url):
     return os.path.splitext(url_components.path)[-1]
 
 
-def load_photo(url, folder, photo):
+def create_folder(folder):
     os.makedirs(os.path.join(os.getcwd(), folder), exist_ok=True)
-    file_name = os.path.join(os.getcwd(), folder, photo)
+
+
+def load_photo(url, file_name):
     headers = {"user-agent": "CoolTool / 0.0"}
     response = requests.get(url=url, headers=headers)
     response.raise_for_status()
@@ -20,8 +22,10 @@ def load_photo(url, folder, photo):
 
 
 if __name__ == "__main__":
+    folder = "images"
+    create_folder(folder)
+    file_name = os.path.join(os.getcwd(), "images", "hubble.jpeg")
     load_photo(
         url="https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg",
-        folder="images",
-        photo="hubble.jpeg"
+        file_name = file_name
         )
