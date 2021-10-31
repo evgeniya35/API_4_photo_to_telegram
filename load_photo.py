@@ -10,13 +10,12 @@ def photo_ext(url):
 
 
 def load_photo(url, folder, photo):
-    if not os.path.exists(os.path.join(os.getcwd(), folder)):
-        os.makedirs(os.path.join(os.getcwd(), folder))
-    filename = os.path.join(os.getcwd(), folder, photo)
+    os.makedirs(os.path.join(os.getcwd(), folder), exist_ok=True)
+    file_name = os.path.join(os.getcwd(), folder, photo)
     headers = {"user-agent": "CoolTool / 0.0"}
     response = requests.get(url=url, headers=headers)
     response.raise_for_status()
-    with open(filename, mode="wb") as file:
+    with open(file_name, mode="wb") as file:
         file.write(response.content)
 
 
