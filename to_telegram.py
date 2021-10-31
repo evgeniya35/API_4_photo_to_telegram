@@ -11,16 +11,21 @@ def pub_image(telegram_token, telegram_channel, delay=86400):
         for dir_path, dir_names, file_names in os.walk("images"):
             for file_name in file_names:
                 with open(file=os.path.join(dir_path, file_name), mode="rb") as f:
-                    bot.send_document(
-                        chat_id=telegram_channel,
-                        document=f.read()
-                        )
+                    doc = f.read()
+                bot.send_document(
+                    chat_id=telegram_channel,
+                    document=doc
+                    )
                 time.sleep(delay)
 
 
-if __name__ == "__main__":
+def main():
     load_dotenv()
     telegram_token = os.environ.get("TELEGRAM_TOKEN")
     telegram_channel = os.environ.get("TELEGRAM_CHANNEL")
     delay = int(os.environ.get("PUBLISH_DELAY"))
     pub_image(telegram_token, telegram_channel, delay)
+
+
+if __name__ == "__main__":
+    main()
