@@ -5,31 +5,22 @@ import json
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-from load_photo import loadphoto, photo_ext
+from load_photo import load_photo, photo_ext, create_folder
 
 
-def fetch_apod(days=2):
-    load_dotenv()
-    options = {
-        "api_key": os.environ.get("NASA_API_KEY"),
-        "start_date": (datetime.now() - timedelta(days=days)).strftime("%Y-%m-%d"),
-        "end_date": datetime.now().strftime("%Y-%m-%d")
-    }
+def fetch_apod(options, folder):
     url = "https://api.nasa.gov/planetary/apod"
     response = requests.get(url=url, params=options)
     response.raise_for_status()
     for num, photo in enumerate(response.json()):
         if photo["media_type"] == "image":
-            loadphoto(
+            load_photo(
                 photo["url"],
-                r"images\nasa",
-                f"nasa{num}{photo_ext(photo['url'])}"
+                os.path.join(folder, f"nasa{num}{photo_ext(photo['url'])}")
             )
 
 
-def fetch_epic():
-    load_dotenv()
-    options = {"api_key": os.environ.get("NASA_API_KEY")}
+def fetch_epic(options, folder):
     url = "https://epic.gsfc.nasa.gov/api/natural"
     response = requests.get(url=url, params=options)
     response.raise_for_status()
@@ -41,16 +32,24 @@ def fetch_epic():
             f"/{date_photo.year}/{date_photo.month}/{date_photo.day}"
             f"/png/{name_photo}.png?api_key={options['api_key']}"
         )
-        loadphoto(
+        load_photo(
             url,
-            r"images\nasa",
-            f"{name_photo}.png"
+            os.path.join(folder, f"{name_photo}.png")
         )
 
 
 def main():
-    fetch_apod(days=1)
-    fetch_epic()
+    load_dotenv()
+    create_folder(os.path.join(os.getcwd(), "images", "nasa"))
+    options = {
+        "api_key": os.environ.get("NASA_API_KEY"),
+        "start_date": (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d"),
+        "end_date": datetime.now().strftime("%Y-%m-%d")
+    }
+    fetch_apod(options, os.path.join(os.getcwd(), "images", "nasa"))
+
+    options = {"api_key": os.environ.get("NASA_API_KEY")}
+    fetch_epic(options, os.path.join(os.getcwd(), "images", "nasa"))
 
 
 if __name__ == "__main__":

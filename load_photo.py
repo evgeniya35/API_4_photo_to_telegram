@@ -10,7 +10,7 @@ def photo_ext(url):
 
 
 def create_folder(folder):
-    os.makedirs(os.path.join(os.getcwd(), folder), exist_ok=True)
+    os.makedirs(folder, exist_ok=True)
 
 
 def load_photo(url, file_name):
@@ -22,8 +22,7 @@ def load_photo(url, file_name):
 
 
 if __name__ == "__main__":
-    folder = "images"
-    create_folder(folder)
+    create_folder(os.path.join(os.getcwd(), "images"))
     file_name = os.path.join(os.getcwd(), "images", "hubble.jpeg")
     load_photo(
         url="https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg",
