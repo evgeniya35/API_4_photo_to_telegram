@@ -13,9 +13,9 @@ def create_folder(folder):
     os.makedirs(folder, exist_ok=True)
 
 
-def load_photo(url, file_name):
+def load_photo(url, file_name, options={}):
     headers = {"user-agent": "CoolTool / 0.0"}
-    response = requests.get(url=url, headers=headers)
+    response = requests.get(url=url, headers=headers, params=options)
     response.raise_for_status()
     with open(file_name, mode="wb") as file:
         file.write(response.content)

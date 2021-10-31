@@ -30,11 +30,12 @@ def fetch_epic(options, folder):
         url = (
             f"https://epic.gsfc.nasa.gov/archive/natural"
             f"/{date_photo.year}/{date_photo.month}/{date_photo.day}"
-            f"/png/{name_photo}.png?api_key={options['api_key']}"
+            f"/png/{name_photo}.png"
         )
         load_photo(
             url,
-            os.path.join(folder, f"{name_photo}.png")
+            os.path.join(folder, f"{name_photo}.png"),
+            options={"api_key": options["api_key"]}
         )
 
 
