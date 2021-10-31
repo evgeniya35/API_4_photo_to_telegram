@@ -9,7 +9,7 @@ def photo_ext(url):
     return os.path.splitext(url_components.path)[-1]
 
 
-def loadphoto(url, folder, photo):
+def load_photo(url, folder, photo):
     if not os.path.exists(os.path.join(os.getcwd(), folder)):
         os.makedirs(os.path.join(os.getcwd(), folder))
     filename = os.path.join(os.getcwd(), folder, photo)
@@ -21,7 +21,7 @@ def loadphoto(url, folder, photo):
 
 
 if __name__ == "__main__":
-    loadphoto(
+    load_photo(
         url="https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg",
         folder="images",
         photo="hubble.jpeg"
