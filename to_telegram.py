@@ -10,12 +10,11 @@ def pub_image(telegram_token, telegram_channel, delay=86400, folder="images"):
     while True:
         for dir_path, dir_names, file_names in os.walk(folder):
             for file_name in file_names:
-                with open(file=os.path.join(dir_path, file_name), mode="rb") as f:
-                    doc = f.read()
-                bot.send_document(
-                    chat_id=telegram_channel,
-                    document=doc
-                    )
+                with open(file=os.path.join(dir_path, file_name), mode="rb") as file:
+                    bot.send_document(
+                        chat_id=telegram_channel,
+                        document=file
+                        )
                 time.sleep(delay)
 
 
