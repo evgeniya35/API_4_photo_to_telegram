@@ -9,9 +9,9 @@ def photo_ext(url):
     return os.path.splitext(url_components.path)[-1]
 
 
-def load_photo(url, file_name, options={}):
+def load_photo(url, file_name, params=None):
     headers = {"user-agent": "CoolTool / 0.0"}
-    response = requests.get(url=url, headers=headers, params=options)
+    response = requests.get(url=url, headers=headers, params=params)
     response.raise_for_status()
     with open(file_name, mode="wb") as file:
         file.write(response.content)
