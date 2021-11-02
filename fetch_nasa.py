@@ -32,17 +32,17 @@ def fetch_epic(api_key, folder):
     response = requests.get(url=url, params=payload)
     response.raise_for_status()
     for photo in response.json():
-        date_photo = datetime.strptime(photo["date"], "%Y-%m-%d %H:%M:%S")
-        name_photo = photo["image"]
+        photo_date = datetime.strptime(photo["date"], "%Y-%m-%d %H:%M:%S")
+        photo_name = photo["image"]
         url = (
             "https://epic.gsfc.nasa.gov/archive/natural"
-            f"/{date_photo.year}/{date_photo.month}/{date_photo.day}"
-            f"/png/{name_photo}.png"
+            f"/{photo_date.year}/{photo_date.month}/{photo_date.day}"
+            f"/png/{photo_name}.png"
         )
         load_photo(
             url,
-            os.path.join(folder, f"{name_photo}.png"),
-            options=payload
+            os.path.join(folder, f"{photo_name}.png"),
+            params=payload
         )
 
 

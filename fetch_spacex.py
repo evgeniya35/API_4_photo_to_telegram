@@ -10,7 +10,7 @@ def fetch_spacex_launch(launch_id, folder):
     response = requests.get(url=url)
     response.raise_for_status()
     images = response.json()["links"]["flickr"]["original"]
-    for photo_num, url in images:
+    for photo_num, url in enumerate(images, start=1):
         load_photo(
             url=url,
             file_name=os.path.join(folder, f"spacex{photo_num}.jpg")

@@ -22,5 +22,5 @@ if __name__ == "__main__":
     file_name = os.path.join(os.getcwd(), "images", "hubble.jpeg")
     load_photo(
         url="https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg",
-        file_name = file_name
+        file_name=file_name
         )
