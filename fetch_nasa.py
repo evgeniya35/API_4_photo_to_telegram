@@ -5,7 +5,7 @@ import json
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 
-from load_photo import load_photo, photo_ext, create_folder
+from load_photo import load_photo, photo_ext
 
 
 def fetch_apod(options, folder):
@@ -28,7 +28,7 @@ def fetch_epic(options, folder):
         date_photo = datetime.strptime(photo["date"], "%Y-%m-%d %H:%M:%S")
         name_photo = photo["image"]
         url = (
-            f"https://epic.gsfc.nasa.gov/archive/natural"
+            "https://epic.gsfc.nasa.gov/archive/natural"
             f"/{date_photo.year}/{date_photo.month}/{date_photo.day}"
             f"/png/{name_photo}.png"
         )
@@ -41,7 +41,7 @@ def fetch_epic(options, folder):
 
 def main():
     load_dotenv()
-    create_folder(os.path.join(os.getcwd(), "images", "nasa"))
+    os.makedirs(os.path.join(os.getcwd(), "images", "nasa"), exist_ok=True)
     options = {
         "api_key": os.environ.get("NASA_API_KEY"),
         "start_date": (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d"),

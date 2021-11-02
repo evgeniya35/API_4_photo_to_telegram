@@ -2,7 +2,7 @@ import os
 import requests
 import json
 
-from load_photo import load_photo, create_folder
+from load_photo import load_photo
 
 
 def fetch_spacex_launch(launch_id):
@@ -14,7 +14,7 @@ def fetch_spacex_launch(launch_id):
 
 def main():
     photos = fetch_spacex_launch(launch_id="5eb87d46ffd86e000604b388")
-    create_folder(os.path.join(os.getcwd(), "images", "spacex"))
+    os.makedirs(os.path.join(os.getcwd(), "images", "spacex"), exist_ok=True)
     for photo_num, url in enumerate(photos):
         load_photo(
             url=url,
