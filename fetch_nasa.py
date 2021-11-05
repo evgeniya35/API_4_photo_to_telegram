@@ -4,13 +4,19 @@ import json
 
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
+from requests import api
 
-from load_photo import load_photo, photo_ext, create_folder
+from load_photo import load_photo, photo_ext
 
 
-def fetch_apod(options, folder):
+def fetch_apod(api_key, start_date, end_date, folder):
     url = "https://api.nasa.gov/planetary/apod"
-    response = requests.get(url=url, params=options)
+    payload = {
+        "api_key": api_key,
+        "start_date": start_date,
+        "end_date": end_date
+    }
+    response = requests.get(url=url, params=payload)
     response.raise_for_status()
     for num, photo in enumerate(response.json()):
         if photo["media_type"] == "image":
@@ -20,38 +26,41 @@ def fetch_apod(options, folder):
             )
 
 
-def fetch_epic(options, folder, date):
+def fetch_epic(api_key, folder, date):
     url = f"https://epic.gsfc.nasa.gov/api/natural/date/{date}"
-    response = requests.get(url=url, params=options)
+    payload = {"api_key": api_key}
+    response = requests.get(url=url, params=payload)
     response.raise_for_status()
     for photo in response.json():
-        date_photo = datetime.strptime(photo["date"], "%Y-%m-%d %H:%M:%S")
-        name_photo = photo["image"]
+        photo_date = datetime.strptime(photo["date"], "%Y-%m-%d %H:%M:%S")
+        photo_name = photo["image"]
         url = (
-            f"https://api.nasa.gov/EPIC/archive/natural"
-            f"/{date_photo.year}/{date_photo.month}/{date_photo.day}"
-            f"/png/{name_photo}.png"
+            "https://epic.gsfc.nasa.gov/archive/natural"
+            f"/{photo_date.year}/{photo_date.month}/{photo_date.day}"
+            f"/png/{photo_name}.png"
         )
         load_photo(
             url,
-            os.path.join(folder, f"{name_photo}.png"),
-            options={"api_key": options["api_key"]}
+            os.path.join(folder, f"{photo_name}.png"),
+            params=payload
         )
 
 
 def main():
     load_dotenv()
     folder = os.path.join(os.getcwd(), "images", "nasa")
-    create_folder(folder)
-    options = {
-        "api_key": os.environ.get("NASA_API_KEY"),
-        "start_date": (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d"),
-        "end_date": datetime.now().strftime("%Y-%m-%d")
-    }
-    fetch_apod(options, folder)
-
-    options = {"api_key": os.environ.get("NASA_API_KEY")}
-    fetch_epic(options, folder, "2021-10-24")
+    os.makedirs(folder, exist_ok=True)
+    fetch_apod(
+        api_key=os.environ.get("NASA_API_KEY"),
+        start_date=(datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d"),
+        end_date=datetime.now().strftime("%Y-%m-%d"),
+        folder=folder
+        )
+    fetch_epic(
+        api_key=os.environ.get("NASA_API_KEY"),
+        folder=folder,
+        date="2021-10-24"
+        )
 
 
 if __name__ == "__main__":
