@@ -18,10 +18,11 @@ def fetch_spacex_launch(launch_id, folder):
 
 
 def main():
-    os.makedirs(os.path.join(os.getcwd(), "images", "spacex"), exist_ok=True)
+    folder = os.path.join(os.getcwd(), "images", "spacex")
+    os.makedirs(folder, exist_ok=True)
     fetch_spacex_launch(
         launch_id="5eb87d46ffd86e000604b388",
-        folder=os.path.join(os.getcwd(), "images", "spacex")
+        folder=folder
         )
 
 
